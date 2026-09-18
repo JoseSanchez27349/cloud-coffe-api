@@ -1,0 +1,32 @@
+name: Integración Continua
+
+# Eventos que disparan la ejecución
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Trabajos a realizar
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Descargar el código del repositorio
+      - name: Descargar código fuente
+        uses: actions/checkout@v4
+
+      # 2. Configurar el entorno (Ejemplo Node.js)
+      - name: Configurar entorno de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. Instalar dependencias
+      - name: Instalar dependencias
+        run: npm ci || npm install
+
+      # 4. Ejecutar pruebas unitarias automatizadas
+      - name: Ejecutar pruebas unitarias
+        run: npm test
